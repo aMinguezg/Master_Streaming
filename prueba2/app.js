@@ -2,6 +2,7 @@ const WebSocketServer = require('ws').Server;
 const wss = new WebSocketServer ({port: 9001});
 
 var dibujos = [];
+var dibujosIniciales = [];
 var clients = [];
 
 wss.on('connection', function conecction(ws, req){
@@ -23,6 +24,7 @@ wss.on('connection', function conecction(ws, req){
                     clients.push(retInit);
                     //ws.send(JSON.stringify(retInit));
                     broadcastUsers(retInit);
+                    broadcastDibujosIniciales();
                 }
             else{
                     let retMessage = {
@@ -30,16 +32,31 @@ wss.on('connection', function conecction(ws, req){
                         'section': 'objeto',
                         'type': obj.type,
                         'data': obj.data
-                    }
-                    dibujos.push(retMessage);
+                    };
+                    let messageAlmacenado = {
+                        'ws': ws,
+                        'section': 'objetoAlmacenado',
+                        'type': obj.type,
+                        'data': obj.data
+                    };
+                    let objetoInicial = {
+                        'ws': ws,
+                        'section': 'init',
+                        'section2': 'objeto',
+                        'type': obj.type,
+                        'data': obj.data
+                    };
+                    dibujos.push(messageAlmacenado);
+                    dibujosIniciales.push(objetoInicial);
                     ws.send(JSON.stringify(retMessage));
+                    broadcastDibujos();
                 }  
             }
     })
 })
 
 wss.on('close', function close() {
-    console.log('disconnected');
+    console.log("CERRRAAAAAAANDOOO")
     ws.on('message', function incoming(message){
         console.log('recived: %s', message);
         if (isJson(message)) {
@@ -61,13 +78,34 @@ function isJson(str){
 broadcastUsers = function(message) {
     clients.forEach(function(cnn) {
             if (cnn.ws){
-                cnn.ws.send(JSON.stringify(message.conectados)); 
+                let retInit = {
+                    'section': 'init',
+                    'section2': 'users',
+                    'conectados': message.conectados
+                }
+                cnn.ws.send(JSON.stringify(retInit)); 
+            }   
+    });
+};
+
+broadcastDibujos = function() {
+    clients.forEach(function(cnn) {
+            if (cnn.ws){
+                cnn.ws.send(JSON.stringify(dibujos)); 
+            }   
+    });
+};
+
+broadcastDibujosIniciales = function() {
+    clients.forEach(function(cnn) {
+            if (cnn.ws){
+                cnn.ws.send(JSON.stringify(dibujosIniciales)); 
             }   
     });
 };
 
 disconnectClient = function(ws) {
-    console.log("CERRRAAAAAAANDOOO")
+    //console.log("CERRRAAAAAAANDOOO")
     for (var i = 0; i < clients.length; i++) {
         if (clients[i].ws == ws) {
             clients.splice(i, 1);

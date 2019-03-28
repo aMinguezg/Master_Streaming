@@ -85,9 +85,28 @@ function onMessageFromServer(message){
         console.log("got data from server");
         addObject(obj.type, obj.data);
     }
-    else{
-        users.textContent = `Users online: ${obj}`;
+    else {
+        if(obj.section=='init'){
+            if(obj.section2 == 'users'){
+                users.textContent = `Users online: ${obj.conectados}`;
+            }
+            else{
+                if(obj.length != undefined){
+                    obj.forEach(function(cnn) {
+                        addObject(cnn.type, cnn.data);
+                    })
+                }
+                
+            }
+            
+        }
+        else{
+            obj.forEach(function(cnn) {
+                addObject(cnn.type, cnn.data);
+            })
+        }
     }
+    
 }
 
 function addObject(type, obj){
