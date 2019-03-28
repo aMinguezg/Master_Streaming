@@ -1,19 +1,19 @@
 window.addEventListener("load", init);
 
-function init(){
+function init() {
     initServer();
     canvas = new fabric.Canvas('canvas');
     canvas.freeDrawingBrush.color = 'green';
     canvas.freeDrawingBrush.lineWidth = 10;
 
-    circle.addEventListener('click', addCircleHandler );
-    triangle.addEventListener('click', addTriangleHandler );
-    square.addEventListener('click', addSquareHandler );
-    pencil.addEventListener('click', pencilHandler );
-    selection.addEventListener('click', selectionHandler );
+    circle.addEventListener('click', addCircleHandler);
+    triangle.addEventListener('click', addTriangleHandler);
+    square.addEventListener('click', addSquareHandler);
+    pencil.addEventListener('click', pencilHandler);
+    selection.addEventListener('click', selectionHandler);
 }
 
-function isJson(str){
+function isJson(str) {
     try {
         JSON.parse(str);
     } catch (error) {
@@ -22,7 +22,7 @@ function isJson(str){
     return true;
 }
 
-function addCircleHandler(){
+function addCircleHandler() {
     let obj = {
         radius: 20,
         fill: 'yellow',
@@ -32,7 +32,7 @@ function addCircleHandler(){
     sendObject('Circle', obj);
 }
 
-function addTriangleHandler(){
+function addTriangleHandler() {
     let obj = {
         width: 20,
         height: 30,
@@ -43,7 +43,7 @@ function addTriangleHandler(){
     sendObject('Triangle', obj);
 }
 
-function addSquareHandler(){
+function addSquareHandler() {
     let obj = {
         width: 80,
         height: 80,
@@ -54,76 +54,72 @@ function addSquareHandler(){
     sendObject('Square', obj);
 }
 
-function pencilHandler(){
+function pencilHandler() {
     canvas.isDrawingMode = true;
 }
 
-function selectionHandler(){
+function selectionHandler() {
     canvas.isDrawingMode = false;
 }
 
-function initServer(){
+function initServer() {
     websocket = new WebSocket('ws://localhost:9001');
     websocket.onopen = connectionOpen;
     websocket.onmessage = onMessageFromServer;
     websocket.onclose = conectionClose;
 }
 
-function connectionOpen(){
-    websocket.send(JSON.stringify({'section': 'init'}));
-    
+function connectionOpen() {
+    websocket.send(JSON.stringify({ 'section': 'init' }));
 }
 
-function conectionClose(){
-    websocket.send(JSON.stringify({'section': 'bye'}));
+function conectionClose() {
+    websocket.send(JSON.stringify({ 'section': 'bye' }));
 }
 
-function onMessageFromServer(message){
+function onMessageFromServer(message) {
     console.log('received: ' + message);
     let obj = JSON.parse(message.data);
-    if(obj.section=='objeto'){
+    if (obj.section == 'objeto') {
         console.log("got data from server");
         addObject(obj.type, obj.data);
     }
     else {
-        if(obj.section=='init'){
-            if(obj.section2 == 'users'){
+        if (obj.section == 'init') {
+            if (obj.section2 == 'users') {
                 users.textContent = `Users online: ${obj.conectados}`;
             }
-            else{
-                if(obj.length != undefined){
-                    obj.forEach(function(cnn) {
+            else {
+                if (obj.length != undefined) {
+                    obj.forEach(function (cnn) {
                         addObject(cnn.type, cnn.data);
                     })
                 }
-                
             }
-            
         }
-        else{
-            obj.forEach(function(cnn) {
+        else {
+            obj.forEach(function (cnn) {
                 addObject(cnn.type, cnn.data);
             })
         }
     }
-    
 }
 
-function addObject(type, obj){
+function addObject(type, obj) {
     var shape;
-    if(type == 'Triangle'){
+    if (type == 'Triangle') {
         shape = new fabric.Triangle(obj);
     }
-    else if(type == 'Square'){
+    else if (type == 'Square') {
         shape = new fabric.Rect(obj);
     }
-    else if(type == 'Circle'){
+    else if (type == 'Circle') {
         shape = new fabric.Circle(obj);
     }
     console.log(shape);
     canvas.add(shape);
 }
 
-function sendObject(type, obj){
-    websocket.send(JSON.stringify({'section':'objeto','type': type, 'data': obj}));
+function sendObject(type, obj) {
+    websocket.send(JSON.stringify({ 'section': 'objeto', 'type': type, 'data': obj }));
 }
