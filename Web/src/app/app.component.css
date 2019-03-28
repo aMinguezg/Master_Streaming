@@ -10,30 +10,30 @@
 }
 
 #cabeceraLogo{
+    display: grid;
     grid-area: logo;
-    background-color: black;
+}
+
+#logo{
+    align-self: center;
+    padding-left: 25%;
 }
 #cabeceraRadio{
     grid-area: radio;
-    background-color: yellow;
 }
 
 #cuerpoVideos{
     grid-area: videos;
-    background-color: red;
 }
 #cuerpoImagenes{
     grid-area: imagenes;
-    background-color: green;
 }
 #cuerpoInformacion{
     grid-area: informacion;
-    background-color: grey;
 }
 
 #pie{
     grid-area: pie;
-    background-color: blue;
 }
 
 @media (max-width: 400px)  {
