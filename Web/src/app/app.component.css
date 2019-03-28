@@ -1,0 +1,75 @@
+#wrapper{
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 20% 35% 35% 10%;
+    grid-template-areas: 
+        "logo radio radio radio"
+        "videos videos imagenes imagenes"
+        "videos videos informacion informacion"
+        "pie pie pie pie";
+}
+
+#cabeceraLogo{
+    grid-area: logo;
+    background-color: black;
+}
+#cabeceraRadio{
+    grid-area: radio;
+    background-color: yellow;
+}
+
+#cuerpoVideos{
+    grid-area: videos;
+    background-color: red;
+}
+#cuerpoImagenes{
+    grid-area: imagenes;
+    background-color: green;
+}
+#cuerpoInformacion{
+    grid-area: informacion;
+    background-color: grey;
+}
+
+#pie{
+    grid-area: pie;
+    background-color: blue;
+}
+
+@media (max-width: 400px)  {
+    #wrapper{
+        display: grid;
+        height: 100vh;
+        grid-template-rows: auto auto auto auto auto;
+        grid-template-areas: 
+            "radio"
+            "videos"
+            "imagenes"
+            "informacion"
+            "pie";
+    }
+
+    #cabeceraLogo{
+        display: none;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 800px) {
+    #wrapper{
+        display: grid;
+        height: 100vh;
+        grid-template-rows: auto auto auto auto auto;
+        grid-template-areas: 
+            "radio"
+            "videos"
+            "imagenes"
+            "informacion"
+            "pie";
+    }
+
+    #cabeceraLogo{
+        display: none;
+    }
+}
+
+
