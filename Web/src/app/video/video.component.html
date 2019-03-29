@@ -1,3 +1,34 @@
-<p>
-  video works!
-</p>
+
+<iframe 
+  width="460" 
+  height="315" 
+  src="https://www.youtube.com/embed/lGJRo82xxA8" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+  allowfullscreen
+  class="show">
+</iframe>
+
+<iframe
+    src="https://player.twitch.tv/?channel=lck"
+    height="315"
+    width="460"
+    frameborder="0"
+    scrolling="no"
+    allowfullscreen
+    class="hidden">
+</iframe>
+
+<iframe 
+  src="http://player.vimeo.com/video/12309496" 
+  width="460" 
+  height="315" 
+  frameborder="0" 
+  allowFullScreen
+  class="hidden">
+</iframe>
+
+<form [formGroup]="urlEntrada" (ngSubmit)="getVideo()">
+  Introduce url del video: <input type="text" name="url" id="url" formControlName="url">
+  <input type="submit" value="submit" />
+</form>

@@ -27,7 +27,6 @@
 }
 #cuerpoImagenes{
     grid-area: imagenes;
-    background-color: aquamarine;
 }
 #cuerpoInformacion{
     grid-area: informacion;

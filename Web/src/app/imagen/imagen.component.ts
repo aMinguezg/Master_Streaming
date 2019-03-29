@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-imagen',
@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImagenComponent implements OnInit {
 
+  private imgsrc:string="../../assets/imagenes/movil1.PNG";
+
+  @ViewChild('imagenGrande') imgGrande: ImageData;
   constructor() { }
 
   ngOnInit() {
   }
 
+  cambio(foto){
+    //this.imgGrande.
+    console.log(foto);
+    this.imgsrc= foto.src;
+  }
 }

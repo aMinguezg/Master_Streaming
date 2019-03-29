@@ -3,10 +3,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background-color: black;
 
 }
 
 .imagen{
     margin-right: 10px;
+}
+
+.viewport{
+    width: "300";
+    height: "300";
+}
+
+.gallery{
+    display: flex;
+    flex-direction: row;
 }
