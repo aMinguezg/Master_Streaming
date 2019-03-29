@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup,FormBuilder} from '@angular/forms';
+import { DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-video',
@@ -9,8 +10,12 @@ import {FormGroup,FormBuilder} from '@angular/forms';
 export class VideoComponent implements OnInit {
 
   private urlEntrada: FormGroup;
+  private urlFrame:string="https://www.youtube.com/embed/lGJRo82xxA8";
+  private urlTwitch:string="https://player.twitch.tv/?channel=";
+  private urlVimeo:string="http://player.vimeo.com/video/";
 
-  constructor(private formBuilder: FormBuilder) { }
+
+  constructor(private formBuilder: FormBuilder, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.urlEntrada = this.formBuilder.group({
@@ -18,9 +23,26 @@ export class VideoComponent implements OnInit {
     })
   }
 
+  getUrl(){
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.urlFrame);
+  }
   getVideo(){
      let url = this.urlEntrada.value["url"];
-     console.log("RESULTADOOOOO" + url)
-     console.log("RESULTADOOOOO" + url.search("yout"));
+     
+     if(url.search("youtube")>= 0){
+        let id = url.slice(32);
+        console.log(id);
+        this.urlFrame ="https://www.youtube.com/embed/"+ id;
+     }
+     else if(url.search("twitch")>= 0){
+        let id = url.slice(22);
+        console.log(id);
+        this.urlFrame ="https://player.twitch.tv/?channel="+ id;
+     }
+     else if(url.search("vimeo")>= 0){
+        let id = url.slice(18);
+        console.log(id);
+        this.urlFrame ="http://player.vimeo.com/video/"+ id;
+    }
   }
 }
