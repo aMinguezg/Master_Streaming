@@ -11,8 +11,6 @@ export class VideoComponent implements OnInit {
 
   private urlEntrada: FormGroup;
   private urlFrame:string="https://www.youtube.com/embed/lGJRo82xxA8";
-  private urlTwitch:string="https://player.twitch.tv/?channel=";
-  private urlVimeo:string="http://player.vimeo.com/video/";
 
 
   constructor(private formBuilder: FormBuilder, private sanitizer: DomSanitizer) { }
