@@ -1,7 +1,12 @@
 #wrapper{
     display: grid;
+    background-image: url("../assets/imagenes/fondo.jpg");
+    background-size: auto;
     height: 100vh;
+    font-family: Lucida Sans Unicode, Lucida Grande, sans-serif ;
     grid-template-rows: 20% 35% 35% 10%;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
     grid-template-areas: 
         "logo radio radio radio"
         "videos videos imagenes imagenes"
@@ -15,25 +20,61 @@
 }
 
 #logo{
-    align-self: center;
-    padding-left: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: none;
+    background-color: rgba(255,255,255, 0.7);
+    border: 20px;
+    border-radius: 25px;
+
+}
+.logo{
+    margin-bottom: 10%;
 }
 #cabeceraRadio{
     grid-area: radio;
+    background-image: none;
+    background-color: rgba(255,255,255, 0.7);
+    border: 20px;
+    border-radius: 25px;
+
 }
 
 #cuerpoVideos{
     grid-area: videos;
+    background-image: none;
+    background-color:rgba(255,255,255, 0.7);
+    border: 20px;
+    border-radius: 25px;
+
 }
 #cuerpoImagenes{
     grid-area: imagenes;
+    background-image: none;
+    background-color: rgba(255,255,255, 0.7);
+    border: 20px;
+    border-radius: 25px;
+
 }
 #cuerpoInformacion{
     grid-area: informacion;
+    background-image: none;
+    background-color: rgba(255,255,255, 0.7);
+    border: 20px;
+    border-radius: 25px;
+
 }
 
 #pie{
+    display: flex;
     grid-area: pie;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    
 }
 
 @media (max-width: 400px)  {
@@ -41,6 +82,7 @@
         display: grid;
         height: 100vh;
         grid-template-rows: auto auto auto auto auto;
+        grid-template-columns: 350px;
         grid-template-areas: 
             "radio"
             "videos"
@@ -52,6 +94,8 @@
     #cabeceraLogo{
         display: none;
     }
+
+
 }
 
 @media (min-width: 400px) and (max-width: 800px) {
@@ -68,6 +112,7 @@
     }
 
     #cabeceraLogo{
+        
         display: none;
     }
 }
