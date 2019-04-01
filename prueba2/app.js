@@ -2,6 +2,7 @@ const WebSocketServer = require('ws').Server;
 const wss = new WebSocketServer({ port: 9001 });
 
 var dibujosIniciales = [];
+var dibujosDownload = [];
 var clients = [];
 
 wss.on('connection', function conecction(ws, req) {
@@ -25,6 +26,9 @@ wss.on('connection', function conecction(ws, req) {
                 broadcastUsers(retInit);
                 broadcastDibujosIniciales(ws);
             }
+            else if(obj.section == 'download'){
+              ws.send(JSON.stringify(dibujosDownload));
+            }
             else {
                 let retMessage = {
                     'ws': ws,
@@ -39,7 +43,13 @@ wss.on('connection', function conecction(ws, req) {
                     'type': obj.type,
                     'data': obj.data
                 };
+                let objetoDownload = {
+                    'section': 'download',
+                    'type': obj.type,
+                    'data': obj.data
+                };
                 dibujosIniciales.push(objetoInicial);
+                dibujosDownload.push(objetoDownload);
                 broadcastDibujos(retMessage);
             }
         }

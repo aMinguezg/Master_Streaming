@@ -11,6 +11,7 @@ function init() {
     square.addEventListener('click', addSquareHandler);
     pencil.addEventListener('click', pencilHandler);
     selection.addEventListener('click', selectionHandler);
+    jsonButt.addEventListener('click', downloadCanvas)
 }
 
 function isJson(str) {
@@ -20,6 +21,10 @@ function isJson(str) {
         return false;
     }
     return true;
+}
+
+function downloadCanvas(){
+    websocket.send(JSON.stringify({ 'section': 'download' }));
 }
 
 function addCircleHandler() {
@@ -84,6 +89,10 @@ function onMessageFromServer(message) {
         console.log("got data from server");
         addObject(obj.type, obj.data);
     }
+    else if(obj.length > 0 && obj[0].section == 'download'){     
+        var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj));
+        $('<a href="data:' + data + '" download="data.json">Descarga el JSON pulsando este link</a>').appendTo('#container');
+    }
     else {
         if (obj.section == 'init') {
             if (obj.section2 == 'users') {
@@ -123,3 +132,4 @@ function addObject(type, obj) {
 function sendObject(type, obj) {
     websocket.send(JSON.stringify({ 'section': 'objeto', 'type': type, 'data': obj }));
 }
+
